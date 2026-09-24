@@ -1,0 +1,252 @@
+<Window x:Class="WPF_SP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Neptuno | Gestión de datos" Height="780" Width="1220"
+        MinHeight="650" MinWidth="980" WindowStartupLocation="CenterScreen"
+        Background="#F2F5FA" Foreground="#17243A" FontFamily="Segoe UI" FontSize="14">
+    <Window.Resources>
+        <SolidColorBrush x:Key="InkBrush" Color="#17243A"/>
+        <SolidColorBrush x:Key="MutedBrush" Color="#65738A"/>
+        <SolidColorBrush x:Key="LineBrush" Color="#D8E0EB"/>
+        <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="BlueBrush" Color="#2457C5"/>
+        <SolidColorBrush x:Key="BlueHoverBrush" Color="#1947AA"/>
+
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="#24344D"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="{StaticResource LineBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="14,9"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinHeight" Value="38"/>
+        </Style>
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource BlueBrush}"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
+        </Style>
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Foreground" Value="#A52C3B"/>
+            <Setter Property="BorderBrush" Value="#E8BBC1"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#17243A"/>
+            <Setter Property="CaretBrush" Value="{StaticResource BlueBrush}"/>
+            <Setter Property="BorderBrush" Value="#BCC8D8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Foreground" Value="#17243A"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="38"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="#5B6B82"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="18,12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="TabBorder" Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent" BorderThickness="0,0,0,3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="{StaticResource BlueBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource BlueBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#17243A"/>
+            <Setter Property="BorderBrush" Value="{StaticResource LineBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#E8EDF4"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#EFF2F7"/>
+            <Setter Property="RowBackground" Value="#FFFFFF"/>
+            <Setter Property="AlternatingRowBackground" Value="#F8FAFD"/>
+            <Setter Property="AlternationCount" Value="2"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="RowHeight" Value="38"/>
+            <Setter Property="ColumnHeaderHeight" Value="42"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#EAF0F8"/>
+            <Setter Property="Foreground" Value="#344761"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderBrush" Value="#D8E0EB"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        </Style>
+        <Style TargetType="DataGridCell">
+            <Setter Property="Foreground" Value="#17243A"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#DCE8FF"/>
+                    <Setter Property="Foreground" Value="#17243A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="Neptuno" FontSize="27" FontWeight="Bold"/>
+                <TextBlock Text="Administración de productos, categorías, proveedores y pedidos"
+                           Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Border Grid.Column="1" Background="#E6EDF8" CornerRadius="16" Padding="14,8"
+                    VerticalAlignment="Center">
+                <TextBlock Text="BASE DE DATOS · NEPTUNO" FontSize="11" FontWeight="Bold"
+                           Foreground="#37527A"/>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="1" Background="{StaticResource CardBrush}" BorderBrush="{StaticResource LineBrush}"
+                BorderThickness="1" CornerRadius="10" Padding="0">
+            <TabControl x:Name="Tabs" SelectionChanged="Tabs_SelectionChanged"
+                        Background="Transparent" BorderThickness="0">
+                <TabItem Header="Productos" Tag="Productos">
+                    <DockPanel Margin="20">
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                            <TextBlock Text="Productos" FontSize="19" FontWeight="Bold"/>
+                            <TextBlock Text="Consulta y actualiza el catálogo de productos."
+                                       Foreground="{StaticResource MutedBrush}" Margin="0,3,0,12"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="＋  Nuevo producto" Style="{StaticResource PrimaryButton}" Click="Add_Click"/>
+                                <Button Content="Guardar cambios" Click="Save_Click"/>
+                                <Button Content="Dar de baja" Style="{StaticResource DangerButton}" Click="Delete_Click"/>
+                                <Button Content="Actualizar lista" Click="Reload_Click" Margin="8,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <DataGrid x:Name="ProductosGrid" AutoGenerateColumns="True" CanUserAddRows="False"
+                                  IsReadOnly="False"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Categorías" Tag="Categorias">
+                    <DockPanel Margin="20">
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                            <TextBlock Text="Categorías" FontSize="19" FontWeight="Bold"/>
+                            <TextBlock Text="Organiza los productos por categoría."
+                                       Foreground="{StaticResource MutedBrush}" Margin="0,3,0,12"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="＋  Nueva categoría" Style="{StaticResource PrimaryButton}" Click="Add_Click"/>
+                                <Button Content="Guardar cambios" Click="Save_Click"/>
+                                <Button Content="Dar de baja" Style="{StaticResource DangerButton}" Click="Delete_Click"/>
+                                <Button Content="Actualizar lista" Click="Reload_Click" Margin="8,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <DataGrid x:Name="CategoriasGrid" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="False"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Proveedores" Tag="Proveedores">
+                    <DockPanel Margin="20">
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                            <TextBlock Text="Proveedores" FontSize="19" FontWeight="Bold"/>
+                            <TextBlock Text="Busca por nombre de contacto o ciudad y edita los datos principales."
+                                       Foreground="{StaticResource MutedBrush}" Margin="0,3,0,12"/>
+                            <Border Background="#F5F8FC" BorderBrush="#E1E8F1" BorderThickness="1"
+                                    CornerRadius="8" Padding="12" Margin="0,0,0,12">
+                                <WrapPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Contacto" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,8,0"/>
+                                    <TextBox x:Name="ContactoBox" Width="190" Margin="0,0,16,0"/>
+                                    <TextBlock Text="Ciudad" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,8,0"/>
+                                    <TextBox x:Name="CiudadBox" Width="155" Margin="0,0,12,0"/>
+                                    <Button Content="Buscar" Style="{StaticResource PrimaryButton}" Click="Reload_Click"/>
+                                    <Button Content="Limpiar filtros" Click="ClearFilters_Click" Margin="0"/>
+                                </WrapPanel>
+                            </Border>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="＋  Nuevo proveedor" Style="{StaticResource PrimaryButton}" Click="Add_Click"/>
+                                <Button Content="Guardar cambios" Click="Save_Click"/>
+                                <Button Content="Dar de baja" Style="{StaticResource DangerButton}" Click="Delete_Click"/>
+                                <Button Content="Actualizar lista" Click="Reload_Click" Margin="8,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <DataGrid x:Name="ProveedoresGrid" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="False"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Pedidos" Tag="Pedidos">
+                    <DockPanel Margin="20">
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                            <TextBlock Text="Pedidos" FontSize="19" FontWeight="Bold"/>
+                            <TextBlock Text="Administra pedidos activos; las bajas se conservan en la base de datos."
+                                       Foreground="{StaticResource MutedBrush}" Margin="0,3,0,12"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="＋  Nuevo pedido" Style="{StaticResource PrimaryButton}" Click="Add_Click"/>
+                                <Button Content="Guardar cambios" Click="Save_Click"/>
+                                <Button Content="Dar de baja" Style="{StaticResource DangerButton}" Click="Delete_Click"/>
+                                <Button Content="Actualizar lista" Click="Reload_Click" Margin="8,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <DataGrid x:Name="PedidosGrid" AutoGenerateColumns="True" CanUserAddRows="False" IsReadOnly="False"/>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Reporte" Tag="Reporte">
+                    <DockPanel Margin="20">
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,14">
+                            <TextBlock Text="Reporte de detalles de pedidos" FontSize="19" FontWeight="Bold"/>
+                            <TextBlock Text="Elige las fechas para consultar los detalles de pedidos activos."
+                                       Foreground="{StaticResource MutedBrush}" Margin="0,3,0,12"/>
+                            <Border Background="#F5F8FC" BorderBrush="#E1E8F1" BorderThickness="1"
+                                    CornerRadius="8" Padding="12">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="Desde" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,8,0"/>
+                                    <DatePicker x:Name="DesdePicker" Width="155" Margin="0,0,18,0"/>
+                                    <TextBlock Text="Hasta" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,8,0"/>
+                                    <DatePicker x:Name="HastaPicker" Width="155" Margin="0,0,16,0"/>
+                                    <Button Content="Generar reporte" Style="{StaticResource PrimaryButton}" Click="Report_Click" Margin="0"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <DataGrid x:Name="ReporteGrid" AutoGenerateColumns="True" IsReadOnly="True"/>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </Border>
+
+        <TextBlock x:Name="StatusText" Grid.Row="2" Text="Listo" Foreground="{StaticResource MutedBrush}"
+                   FontSize="12" Margin="4,10,0,0"/>
+    </Grid>
+</Window>

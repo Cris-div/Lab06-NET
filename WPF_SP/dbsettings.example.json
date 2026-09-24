@@ -1,0 +1,8 @@
+{
+  "Server": "LAPTOP-1RLDQC3J\\SQLEXPRESS",
+  "Database": "NeptunoDB",
+  "IntegratedSecurity": true,
+  "User": "",
+  "Password": "",
+  "TrustServerCertificate": true
+}
