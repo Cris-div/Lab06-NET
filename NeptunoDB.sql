@@ -243,11 +243,11 @@ GO
 CREATE OR ALTER PROCEDURE dbo.usp_Productos_Listar AS
  SELECT ProductoID,NombreProducto,ProveedorID,CategoriaID,CantidadPorUnidad,PrecioUnidad,UnidadesEnExistencia,UnidadesEnPedido,NivelDeReorden,Descontinuado FROM dbo.Productos WHERE Activo=1 ORDER BY ProductoID;
 GO
-CREATE OR ALTER PROCEDURE dbo.usp_Productos_Insertar @NombreProducto nvarchar(60),@ProveedorID int=NULL,@CategoriaID int=NULL,@CantidadPorUnidad nvarchar(30)=NULL,@PrecioUnidad decimal(10,2)=0,@UnidadesEnExistencia smallint=0 AS
- INSERT dbo.Productos(NombreProducto,ProveedorID,CategoriaID,CantidadPorUnidad,PrecioUnidad,UnidadesEnExistencia,UnidadesEnPedido,NivelDeReorden,Descontinuado,Activo) VALUES(@NombreProducto,@ProveedorID,@CategoriaID,@CantidadPorUnidad,@PrecioUnidad,@UnidadesEnExistencia,0,0,0,1);
+CREATE OR ALTER PROCEDURE dbo.usp_Productos_Insertar @NombreProducto nvarchar(60),@ProveedorID int=NULL,@CategoriaID int=NULL,@CantidadPorUnidad nvarchar(30)=NULL,@PrecioUnidad decimal(10,2)=0,@UnidadesEnExistencia smallint=0,@NivelDeReorden smallint=0,@Descontinuado bit=0 AS
+ INSERT dbo.Productos(NombreProducto,ProveedorID,CategoriaID,CantidadPorUnidad,PrecioUnidad,UnidadesEnExistencia,UnidadesEnPedido,NivelDeReorden,Descontinuado,Activo) VALUES(@NombreProducto,@ProveedorID,@CategoriaID,@CantidadPorUnidad,@PrecioUnidad,@UnidadesEnExistencia,0,@NivelDeReorden,@Descontinuado,1);
 GO
-CREATE OR ALTER PROCEDURE dbo.usp_Productos_Actualizar @ProductoID int,@NombreProducto nvarchar(60),@ProveedorID int=NULL,@CategoriaID int=NULL,@CantidadPorUnidad nvarchar(30)=NULL,@PrecioUnidad decimal(10,2)=0,@UnidadesEnExistencia smallint=0 AS
- UPDATE dbo.Productos SET NombreProducto=@NombreProducto,ProveedorID=@ProveedorID,CategoriaID=@CategoriaID,CantidadPorUnidad=@CantidadPorUnidad,PrecioUnidad=@PrecioUnidad,UnidadesEnExistencia=@UnidadesEnExistencia WHERE ProductoID=@ProductoID AND Activo=1;
+CREATE OR ALTER PROCEDURE dbo.usp_Productos_Actualizar @ProductoID int,@NombreProducto nvarchar(60),@ProveedorID int=NULL,@CategoriaID int=NULL,@CantidadPorUnidad nvarchar(30)=NULL,@PrecioUnidad decimal(10,2)=0,@UnidadesEnExistencia smallint=0,@NivelDeReorden smallint=0,@Descontinuado bit=0 AS
+ UPDATE dbo.Productos SET NombreProducto=@NombreProducto,ProveedorID=@ProveedorID,CategoriaID=@CategoriaID,CantidadPorUnidad=@CantidadPorUnidad,PrecioUnidad=@PrecioUnidad,UnidadesEnExistencia=@UnidadesEnExistencia,NivelDeReorden=@NivelDeReorden,Descontinuado=@Descontinuado WHERE ProductoID=@ProductoID AND Activo=1;
 GO
 CREATE OR ALTER PROCEDURE dbo.usp_Productos_Eliminar @ProductoID int AS UPDATE dbo.Productos SET Activo=0 WHERE ProductoID=@ProductoID AND Activo=1;
 GO

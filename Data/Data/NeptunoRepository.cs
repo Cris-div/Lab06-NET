@@ -58,8 +58,8 @@ public sealed class NeptunoRepository(string connectionString)
         var values = entidad switch
         {
             "Productos" => insertar
-                ? new[] { P("@NombreProducto", SqlDbType.NVarChar, V(row,"NombreProducto")), P("@ProveedorID",SqlDbType.Int,V(row,"ProveedorID")), P("@CategoriaID",SqlDbType.Int,V(row,"CategoriaID")), P("@CantidadPorUnidad",SqlDbType.NVarChar,V(row,"CantidadPorUnidad")), P("@PrecioUnidad",SqlDbType.Decimal,V(row,"PrecioUnidad")), P("@UnidadesEnExistencia",SqlDbType.SmallInt,V(row,"UnidadesEnExistencia")) }
-                : new[] { P("@ProductoID",SqlDbType.Int,V(row,"ProductoID")), P("@NombreProducto",SqlDbType.NVarChar,V(row,"NombreProducto")), P("@ProveedorID",SqlDbType.Int,V(row,"ProveedorID")), P("@CategoriaID",SqlDbType.Int,V(row,"CategoriaID")), P("@CantidadPorUnidad",SqlDbType.NVarChar,V(row,"CantidadPorUnidad")), P("@PrecioUnidad",SqlDbType.Decimal,V(row,"PrecioUnidad")), P("@UnidadesEnExistencia",SqlDbType.SmallInt,V(row,"UnidadesEnExistencia")) },
+                ? new[] { P("@NombreProducto", SqlDbType.NVarChar, V(row,"NombreProducto")), P("@ProveedorID",SqlDbType.Int,V(row,"ProveedorID")), P("@CategoriaID",SqlDbType.Int,V(row,"CategoriaID")), P("@CantidadPorUnidad",SqlDbType.NVarChar,V(row,"CantidadPorUnidad")), P("@PrecioUnidad",SqlDbType.Decimal,V(row,"PrecioUnidad")), P("@UnidadesEnExistencia",SqlDbType.SmallInt,V(row,"UnidadesEnExistencia")), P("@NivelDeReorden",SqlDbType.SmallInt,VOrDefault(row,"NivelDeReorden",(short)0)), P("@Descontinuado",SqlDbType.Bit,VOrDefault(row,"Descontinuado",false)) }
+                : new[] { P("@ProductoID",SqlDbType.Int,V(row,"ProductoID")), P("@NombreProducto",SqlDbType.NVarChar,V(row,"NombreProducto")), P("@ProveedorID",SqlDbType.Int,V(row,"ProveedorID")), P("@CategoriaID",SqlDbType.Int,V(row,"CategoriaID")), P("@CantidadPorUnidad",SqlDbType.NVarChar,V(row,"CantidadPorUnidad")), P("@PrecioUnidad",SqlDbType.Decimal,V(row,"PrecioUnidad")), P("@UnidadesEnExistencia",SqlDbType.SmallInt,V(row,"UnidadesEnExistencia")), P("@NivelDeReorden",SqlDbType.SmallInt,VOrDefault(row,"NivelDeReorden",(short)0)), P("@Descontinuado",SqlDbType.Bit,VOrDefault(row,"Descontinuado",false)) },
             "Categorias" => insertar
                 ? new[] { P("@NombreCategoria",SqlDbType.NVarChar,V(row,"NombreCategoria")), P("@Descripcion",SqlDbType.NVarChar,V(row,"Descripcion")) }
                 : new[] { P("@CategoriaID",SqlDbType.Int,V(row,"CategoriaID")), P("@NombreCategoria",SqlDbType.NVarChar,V(row,"NombreCategoria")), P("@Descripcion",SqlDbType.NVarChar,V(row,"Descripcion")) },
@@ -89,5 +89,6 @@ public sealed class NeptunoRepository(string connectionString)
     }
 
     private static object? V(DataRow row, string column) => row.Table.Columns.Contains(column) && !row.IsNull(column) ? row[column] : null;
+    private static object VOrDefault(DataRow row, string column, object defaultValue) => V(row, column) ?? defaultValue;
     private static (string Name, SqlDbType Type, object? Value) P(string name, SqlDbType type, object? value) => (name, type, value);
 }

@@ -46,7 +46,7 @@ public partial class MainWindow : Window
             grid.ItemsSource = table.DefaultView;
             var editable = entidad switch
             {
-                "Productos" => new[] { "NombreProducto", "ProveedorID", "CategoriaID", "CantidadPorUnidad", "PrecioUnidad", "UnidadesEnExistencia" },
+                "Productos" => new[] { "NombreProducto", "ProveedorID", "CategoriaID", "CantidadPorUnidad", "PrecioUnidad", "UnidadesEnExistencia", "NivelDeReorden", "Descontinuado" },
                 "Categorias" => new[] { "NombreCategoria", "Descripcion" },
                 "Proveedores" => new[] { "CompaniaNombre", "NombreContacto", "Ciudad", "Pais" },
                 "Pedidos" => new[] { "ClienteID", "EmpleadoID", "FechaPedido", "Destinatario", "CiudadDestino" },
@@ -110,12 +110,15 @@ public partial class MainWindow : Window
         if (grid is null || grid.ItemsSource is not DataView view || view.Table is not DataTable table) return;
         grid.CommitEdit(DataGridEditingUnit.Cell, true);
         grid.CommitEdit(DataGridEditingUnit.Row, true);
+        // Captura el estado de la interfaz en el hilo WPF antes de entrar a Task.Run.
+        var entidad = Entidad;
         try
         {
             foreach (DataRow row in table.Rows.Cast<DataRow>().ToArray())
             {
                 if (row.RowState is not (DataRowState.Added or DataRowState.Modified)) continue;
-                await Task.Run(() => _repository.GuardarFila(Entidad, row, row.RowState == DataRowState.Added));
+                var insertar = row.RowState == DataRowState.Added;
+                await Task.Run(() => _repository.GuardarFila(entidad, row, insertar));
                 row.AcceptChanges();
             }
             MessageBox.Show(this, "Los cambios se guardaron correctamente.", "Neptuno", MessageBoxButton.OK, MessageBoxImage.Information);
